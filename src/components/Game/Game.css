@@ -1,0 +1,10 @@
+.Game {
+    width: 800px;
+    height: 800px;
+    background-color: rgb(24, 24, 54);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: thick solid white;
+}

@@ -1,0 +1,8 @@
+.Snake {
+    border: 2px solid white;
+    width: 16px;
+    height: 16px;
+    background-color: rgb(0, 220, 0);
+    position: absolute;
+    border-radius: 5px;
+}
