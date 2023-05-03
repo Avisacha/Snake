@@ -8,7 +8,7 @@ const segments = [[380, 360], [380, 380]];
 const getRandCoord = () => {
 	let x = Math.floor(Math.random() * 39) * 20;
 	let y = Math.floor(Math.random() * 39) * 20;
-	if (x == segments[0][0] && y == segments[0][1]) {
+	if (x === segments[0][0] && y === segments[0][1]) {
 		getRandCoord();
 	}
 	return [x,y];
@@ -38,30 +38,30 @@ export default class Game extends Component {
 	componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<{}>, snapshot?: any): void {
 		this.checkBorderCollision();
 		this.checkFoodEaten();
-		this.checkSegmentsCollision();
+		this.checkSegmentsCollision();		
 	}
 
 	keyEvent = () => {
 		window.addEventListener('keydown', (e) => {
 			switch (e.code) {
 				case 'ArrowUp':
-					if (this.state.direction != 'down') {
-						this.state.directionInput = 'up';
+					if (this.state.direction !== 'down') {
+						this.setState(this.state.directionInput = 'up');
 					}
 					break;
 				case 'ArrowDown':
-					if (this.state.direction != 'up') {
-						this.state.directionInput = 'down';
+					if (this.state.direction !== 'up') {
+						this.setState(this.state.directionInput = 'down');
 					}
 					break;
 				case 'ArrowLeft':
-					if (this.state.direction != 'right') {
-						this.state.directionInput = 'left';
+					if (this.state.direction !== 'right') {
+						this.setState(this.state.directionInput = 'left');
 					}
 					break;
 				case 'ArrowRight':
-					if (this.state.direction != 'left') {
-						this.state.directionInput = 'right';
+					if (this.state.direction !== 'left') {
+						this.setState(this.state.directionInput = 'right');
 					}
 					break;
 			}
@@ -105,7 +105,7 @@ export default class Game extends Component {
 
 	checkBorderCollision() {
 		const max = this.state.segments.length - 1;
-		if(this.state.segments[max][0] > 780 || this.state.segments[max][0] < 0 || this.state.segments[max][1] > 780 || this.state.segments[max][1] < 0) {
+		if(this.state.segments[max][0] >= 780 || this.state.segments[max][0] < 0 || this.state.segments[max][1] >= 780 || this.state.segments[max][1] < 0) {
 			this.gameOver();
 		}
 	}
@@ -116,7 +116,7 @@ export default class Game extends Component {
 		segments.pop();
 
 		segments.forEach(seg => {
-			if(head[0] == seg[0] && head[1] == seg[1]) {
+			if(head[0] === seg[0] && head[1] === seg[1]) {
 				this.gameOver();
 			}
 		});
@@ -124,7 +124,7 @@ export default class Game extends Component {
 	
 	checkFoodEaten() {
 		const max = this.state.segments.length - 1;
-		if (this.state.foodCoord[0] == this.state.segments[max][0] && this.state.foodCoord[1] == this.state.segments[max][1]) {		
+		if (this.state.foodCoord[0] === this.state.segments[max][0] && this.state.foodCoord[1] === this.state.segments[max][1]) {		
 			this.setState({foodCoord: getRandCoord()});
 			this.enlargeSnake();
 			this.speedUp();
@@ -132,7 +132,7 @@ export default class Game extends Component {
 	}
 
 	speedUp() {
-		if (this.state.speed > 30) {
+		if (this.state.speed >= 30) {
 			this.setState({speed:this.state.speed - (this.state.speed / 10)});
 			clearInterval(interval);
 			interval = setInterval(this.move, this.state.speed);
