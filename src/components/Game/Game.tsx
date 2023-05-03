@@ -164,11 +164,6 @@ export default class Game extends Component {
 			<div className='Game'>
 				<Food foodCoord={this.state.foodCoord} />
 				<Snake segments={this.state.segments} />
-				{/* {this.state.popup ?
-					<div><p>TEST</p></div>
-					:
-					<div><p>PAS TEST</p></div>
-				} */}
 			</div>
 		)
 	}
