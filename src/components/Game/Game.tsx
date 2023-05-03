@@ -20,7 +20,9 @@ const initState = {
 	pause: false,
 	segments: segments,
 	speed: 200,
-	foodCoord: getRandCoord()
+	foodCoord: getRandCoord(),
+	step: 20,
+	popup: false
 }
 
 const step = 20;
@@ -46,22 +48,22 @@ export default class Game extends Component {
 			switch (e.code) {
 				case 'ArrowUp':
 					if (this.state.direction !== 'down') {
-						this.setState(this.state.directionInput = 'up');
+						this.state.directionInput = 'up';
 					}
 					break;
 				case 'ArrowDown':
 					if (this.state.direction !== 'up') {
-						this.setState(this.state.directionInput = 'down');
+						this.state.directionInput = 'down';
 					}
 					break;
 				case 'ArrowLeft':
 					if (this.state.direction !== 'right') {
-						this.setState(this.state.directionInput = 'left');
+						this.state.directionInput = 'left';
 					}
 					break;
 				case 'ArrowRight':
 					if (this.state.direction !== 'left') {
-						this.setState(this.state.directionInput = 'right');
+						this.state.directionInput = 'right';
 					}
 					break;
 			}
@@ -70,53 +72,53 @@ export default class Game extends Component {
 
 	move = () => {
 		let coords = [...this.state.segments];
-		let head = coords[coords.length - 1];
+		let first = coords[coords.length - 1];
 
 		switch (this.state.directionInput) {
 			case 'up':
 				this.state.direction = 'up';
 				this.setState(
-					head = [head[0] - step, head[1]]
+					first = [first[0] - step, first[1]]
 				)
 				break;
 			case 'down':
 				this.state.direction = 'down';
 				this.setState(
-					head = [head[0] + step, head[1]]
+					first = [first[0] + step, first[1]]
 				)
 				break;
 			case 'left':
 				this.state.direction = 'left';
 				this.setState(
-					head = [head[0], head[1] - step]
+					first = [first[0], first[1] - step]
 				)
 				break;
 			case 'right':
 				this.state.direction = 'right';
 				this.setState(
-					head = [head[0], head[1] + step]
+					first = [first[0], first[1] + step]
 				)
 				break;
 		}
-		coords.push(head);
+		coords.push(first);
 		coords.shift();
 		this.setState(this.state.segments = coords);
 	}
 
 	checkBorderCollision() {
 		const max = this.state.segments.length - 1;
-		if(this.state.segments[max][0] >= 780 || this.state.segments[max][0] < 0 || this.state.segments[max][1] >= 780 || this.state.segments[max][1] < 0) {
+		if(this.state.segments[max][0] > 780 || this.state.segments[max][0] < 0 || this.state.segments[max][1] > 780 || this.state.segments[max][1] < 0) {
 			this.gameOver();
 		}
 	}
 
 	checkSegmentsCollision() {
 		let segments = [...this.state.segments];
-		let head = segments[segments.length - 1];
+		let first = segments[segments.length - 1];
 		segments.pop();
 
 		segments.forEach(seg => {
-			if(head[0] === seg[0] && head[1] === seg[1]) {
+			if(first[0] === seg[0] && first[1] === seg[1]) {
 				this.gameOver();
 			}
 		});
@@ -154,6 +156,7 @@ export default class Game extends Component {
 			100
 		)
 		this.setState(initState);
+		this.setState(this.state.popup = true)
 	}
 
 	render() {
@@ -161,6 +164,11 @@ export default class Game extends Component {
 			<div className='Game'>
 				<Food foodCoord={this.state.foodCoord} />
 				<Snake segments={this.state.segments} />
+				{/* {this.state.popup ?
+					<div><p>TEST</p></div>
+					:
+					<div><p>PAS TEST</p></div>
+				} */}
 			</div>
 		)
 	}
