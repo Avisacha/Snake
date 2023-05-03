@@ -155,8 +155,8 @@ export default class Game extends Component {
 			alert('PERDU'),
 			100
 		)
+		// this.setState(this.state.popup = true);
 		this.setState(initState);
-		this.setState(this.state.popup = true)
 	}
 
 	render() {
@@ -164,6 +164,11 @@ export default class Game extends Component {
 			<div className='Game'>
 				<Food foodCoord={this.state.foodCoord} />
 				<Snake segments={this.state.segments} />
+				{/* {this.state.popup ?
+					<div>TEST</div>
+				:
+					<div>PAS TEST</div>
+				} */}
 			</div>
 		)
 	}
