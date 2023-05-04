@@ -151,10 +151,7 @@ export default class Game extends Component {
 	gameOver() {
 		clearInterval(interval);
 		interval = setInterval(this.move, this.state.speed);
-		setTimeout(() => 
-			alert('PERDU'),
-			100
-		)
+		alert('Score: ' + (this.state.segments.length - 2));
 		// this.setState(this.state.popup = true);
 		this.setState(initState);
 	}
