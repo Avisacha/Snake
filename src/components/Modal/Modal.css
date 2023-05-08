@@ -1,0 +1,37 @@
+.Modal {
+    position: absolute;
+    /* left: 0px; */
+    width: 300px;
+    height: 180px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: thick solid white;
+    background-color: rgba(255, 204, 0, 0.9);
+    border-radius: 20px;
+}
+
+.Hidden {
+    display: none;
+}
+
+.btn {
+  background-color: #ff3300;
+  border-radius: 10px;
+  border-style: none;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 10px 16px;
+  text-align: center;
+  border: 3px solid white;
+}
+
+.btn:hover {
+  background-color: #ff5d35;
+}
+
+.btn:active {
+    background-color: #c02600;
+
+}

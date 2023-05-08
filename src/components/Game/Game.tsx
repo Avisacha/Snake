@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Game.css';
 import Snake from '../Snake/Snake';
 import Food from '../Food/Food';
+import Modal from '../Modal/Modal';
 
 const segments = [[380, 360], [380, 380]];
 
@@ -11,7 +12,7 @@ const getRandCoord = () => {
 	if (x === segments[0][0] && y === segments[0][1]) {
 		getRandCoord();
 	}
-	return [x,y];
+	return [x, y];
 }
 
 const initState = {
@@ -21,26 +22,31 @@ const initState = {
 	segments: segments,
 	speed: 200,
 	foodCoord: getRandCoord(),
-	step: 20,
-	popup: false
+	step: 20
 }
 
+let initModal = {
+	popup: false,
+	msg: "",
+	restart: false
+}
 const step = 20;
 
-let interval:ReturnType<typeof setInterval>;
+let interval: ReturnType<typeof setInterval>;
 
 export default class Game extends Component {
 	state = initState;
+	modal = initModal;
 
 	componentDidMount(): void {
-		interval = setInterval(this.move, this.state.speed);			
+		interval = setInterval(this.move, this.state.speed);
 		onkeydown = this.keyEvent;
 	}
 
 	componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<{}>, snapshot?: any): void {
 		this.checkBorderCollision();
 		this.checkFoodEaten();
-		this.checkSegmentsCollision();		
+		this.checkSegmentsCollision();
 	}
 
 	keyEvent = () => {
@@ -48,22 +54,22 @@ export default class Game extends Component {
 			switch (e.code) {
 				case 'ArrowUp':
 					if (this.state.direction !== 'down') {
-						this.state.directionInput = 'up';
+						this.setState({directionInput: 'up'})
 					}
 					break;
 				case 'ArrowDown':
 					if (this.state.direction !== 'up') {
-						this.state.directionInput = 'down';
+						this.setState({directionInput: 'down'})
 					}
 					break;
 				case 'ArrowLeft':
 					if (this.state.direction !== 'right') {
-						this.state.directionInput = 'left';
+						this.setState({directionInput: 'left'})
 					}
 					break;
 				case 'ArrowRight':
 					if (this.state.direction !== 'left') {
-						this.state.directionInput = 'right';
+						this.setState({directionInput: 'right'})
 					}
 					break;
 			}
@@ -72,62 +78,63 @@ export default class Game extends Component {
 
 	move = () => {
 		let coords = [...this.state.segments];
-		let first = coords[coords.length - 1];
+		let firstSeg = coords[coords.length - 1];
 
 		switch (this.state.directionInput) {
 			case 'up':
-				this.state.direction = 'up';
+				this.setState({direction: 'up'});
 				this.setState(
-					first = [first[0] - step, first[1]]
+					firstSeg = [firstSeg[0] - step, firstSeg[1]]
 				)
 				break;
 			case 'down':
-				this.state.direction = 'down';
+				this.setState({direction: 'down'});
 				this.setState(
-					first = [first[0] + step, first[1]]
+					firstSeg = [firstSeg[0] + step, firstSeg[1]]
 				)
 				break;
 			case 'left':
-				this.state.direction = 'left';
+				this.setState({direction: 'left'});
 				this.setState(
-					first = [first[0], first[1] - step]
+					firstSeg = [firstSeg[0], firstSeg[1] - step]
 				)
 				break;
 			case 'right':
-				this.state.direction = 'right';
+				this.setState({direction: 'right'});
 				this.setState(
-					first = [first[0], first[1] + step]
+					firstSeg = [firstSeg[0], firstSeg[1] + step]
 				)
 				break;
 		}
-		coords.push(first);
+		coords.push(firstSeg);
 		coords.shift();
-		this.setState(this.state.segments = coords);
+
+		this.setState({segments: coords})
 	}
 
 	checkBorderCollision() {
 		const max = this.state.segments.length - 1;
-		if(this.state.segments[max][0] > 780 || this.state.segments[max][0] < 0 || this.state.segments[max][1] > 780 || this.state.segments[max][1] < 0) {
+		if (this.state.segments[max][0] > 780 || this.state.segments[max][0] < 0 || this.state.segments[max][1] > 780 || this.state.segments[max][1] < 0) {
 			this.gameOver();
 		}
 	}
 
 	checkSegmentsCollision() {
 		let segments = [...this.state.segments];
-		let first = segments[segments.length - 1];
+		let firstSeg = segments[segments.length - 1];
 		segments.pop();
 
 		segments.forEach(seg => {
-			if(first[0] === seg[0] && first[1] === seg[1]) {
+			if (firstSeg[0] === seg[0] && firstSeg[1] === seg[1]) {
 				this.gameOver();
 			}
 		});
 	}
-	
+
 	checkFoodEaten() {
 		const max = this.state.segments.length - 1;
-		if (this.state.foodCoord[0] === this.state.segments[max][0] && this.state.foodCoord[1] === this.state.segments[max][1]) {		
-			this.setState({foodCoord: getRandCoord()});
+		if (this.state.foodCoord[0] === this.state.segments[max][0] && this.state.foodCoord[1] === this.state.segments[max][1]) {
+			this.setState({ foodCoord: getRandCoord() });
 			this.enlargeSnake();
 			this.speedUp();
 		}
@@ -135,25 +142,27 @@ export default class Game extends Component {
 
 	speedUp() {
 		if (this.state.speed >= 30) {
-			this.setState({speed:this.state.speed - (this.state.speed / 10)});
+			this.setState({ speed: this.state.speed - (this.state.speed / 10) });
 			clearInterval(interval);
 			interval = setInterval(this.move, this.state.speed);
-			console.log(this.state.speed);
 		}
 	}
 
 	enlargeSnake() {
 		let newSegment = [...this.state.segments];
 		newSegment.unshift([]);
-		this.setState(this.state.segments = newSegment);
+		this.setState({segments: newSegment});
 	}
 
 	gameOver() {
-		clearInterval(interval);
-		interval = setInterval(this.move, this.state.speed);
-		alert('Score: ' + (this.state.segments.length - 2));
-		// this.setState(this.state.popup = true);
+		this.modal.msg = (this.state.segments.length - 2).toString();
+		this.modal.popup = true;
 		this.setState(initState);
+		clearInterval(interval);
+	}
+
+	getModalClose = (data: boolean) => {
+		interval = setInterval(this.move, this.state.speed);
 	}
 
 	render() {
@@ -161,11 +170,7 @@ export default class Game extends Component {
 			<div className='Game'>
 				<Food foodCoord={this.state.foodCoord} />
 				<Snake segments={this.state.segments} />
-				{/* {this.state.popup ?
-					<div>TEST</div>
-				:
-					<div>PAS TEST</div>
-				} */}
+				<Modal modal={this.modal} getModalClose={this.getModalClose}/>
 			</div>
 		)
 	}
