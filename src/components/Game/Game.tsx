@@ -10,7 +10,6 @@ const step = 20;
 
 const segments = [[(width/2)-step, (height/2)-(step*2)], [(width/2)-step, (height/2)-step]];
 
-
 const getRandCoord = () => {
 	let x = Math.floor(Math.random() * (width/step)-1) * step;
 	let y = Math.floor(Math.random() * (height/step)-1) * step;
