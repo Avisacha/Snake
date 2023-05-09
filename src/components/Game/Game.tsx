@@ -4,11 +4,16 @@ import Snake from '../Snake/Snake';
 import Food from '../Food/Food';
 import Modal from '../Modal/Modal';
 
-const segments = [[380, 360], [380, 380]];
+const width = 800;
+const height = 800;
+const step = 20;
+
+const segments = [[(width/2)-step, (height/2)-(step*2)], [(width/2)-step, (height/2)-step]];
+
 
 const getRandCoord = () => {
-	let x = Math.floor(Math.random() * 39) * 20;
-	let y = Math.floor(Math.random() * 39) * 20;
+	let x = Math.floor(Math.random() * (width/step)-1) * step;
+	let y = Math.floor(Math.random() * (height/step)-1) * step;
 	if (x === segments[0][0] && y === segments[0][1]) {
 		getRandCoord();
 	}
@@ -25,12 +30,10 @@ const initState = {
 	step: 20
 }
 
-let initModal = {
+const initModal = {
 	popup: false,
-	msg: "",
-	restart: false
+	msg: ""
 }
-const step = 20;
 
 let interval: ReturnType<typeof setInterval>;
 
@@ -114,7 +117,7 @@ export default class Game extends Component {
 
 	checkBorderCollision() {
 		const max = this.state.segments.length - 1;
-		if (this.state.segments[max][0] > 780 || this.state.segments[max][0] < 0 || this.state.segments[max][1] > 780 || this.state.segments[max][1] < 0) {
+		if (this.state.segments[max][0] > height-step || this.state.segments[max][0] < 0 || this.state.segments[max][1] > width-step || this.state.segments[max][1] < 0) {
 			this.gameOver();
 		}
 	}
