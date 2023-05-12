@@ -1,6 +1,7 @@
 .Game {
-    width: 800px;
-    height: 800px;
+    /* width: 800px;
+    height: 800px; */
+
     background-color: rgb(24, 24, 54);
     position: absolute;
     top: 50%;

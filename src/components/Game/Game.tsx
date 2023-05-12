@@ -4,8 +4,8 @@ import Snake from '../Snake/Snake';
 import Food from '../Food/Food';
 import Modal from '../Modal/Modal';
 
-const width = 800;
-const height = 800;
+const width = 600;
+const height = 600;
 const step = 20;
 
 const segments = [[(width/2)-step, (height/2)-(step*2)], [(width/2)-step, (height/2)-step]];
@@ -30,7 +30,9 @@ const initState = {
 	segments: segments,
 	speed: 200,
 	foodCoord: getRandCoord(),
-	step: 20
+	step: 20,
+	width: width,
+	height: height
 }
 
 const initModal = {
@@ -45,6 +47,7 @@ export default class Game extends Component {
 	modal = initModal;
 
 	componentDidMount(): void {
+		document.documentElement.style.setProperty('--my-favorite-color', 'magenta');
 		interval = setInterval(this.move, this.state.speed);
 		onkeydown = this.keyEvent;
 	}
@@ -173,7 +176,8 @@ export default class Game extends Component {
 
 	render() {
 		return (
-			<div className='Game'>
+			// <div className='Game'>
+			<div style={{height: `${this.state.height}px`, width: `${this.state.width}px`}} className='Game'>
 				<Food foodCoord={this.state.foodCoord} />
 				<Snake segments={this.state.segments} />
 				<Modal modal={this.modal} getModalClose={this.getModalClose}/>
