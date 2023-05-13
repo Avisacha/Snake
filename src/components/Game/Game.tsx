@@ -47,7 +47,6 @@ export default class Game extends Component {
 	modal = initModal;
 
 	componentDidMount(): void {
-		document.documentElement.style.setProperty('--my-favorite-color', 'magenta');
 		interval = setInterval(this.move, this.state.speed);
 		onkeydown = this.keyEvent;
 	}
@@ -176,7 +175,6 @@ export default class Game extends Component {
 
 	render() {
 		return (
-			// <div className='Game'>
 			<div style={{height: `${this.state.height}px`, width: `${this.state.width}px`}} className='Game'>
 				<Food foodCoord={this.state.foodCoord} />
 				<Snake segments={this.state.segments} />
