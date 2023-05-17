@@ -1,18 +1,20 @@
 .Modal {
-    position: absolute;
-    /* left: 0px; */
-    width: 300px;
-    height: 180px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    border: thick solid white;
-    background-color: rgba(255, 204, 0, 0.9);
-    border-radius: 20px;
+  position: absolute;
+  /* left: 0px; */
+  width: 300px;
+  height: 180px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: thick solid white;
+  background-color: rgba(255, 204, 0, 0.9);
+  border-radius: 20px;
+  text-align: center;
+
 }
 
 .Hidden {
-    display: none;
+  display: none;
 }
 
 .btn {
@@ -32,6 +34,6 @@
 }
 
 .btn:active {
-    background-color: #c02600;
+  background-color: #c02600;
 
 }

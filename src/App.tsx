@@ -1,13 +1,19 @@
-import React from 'react';
-import './App.css';
-import Game from './components/Game/Game';
+import React, { useState } from "react";
+import "./App.css";
+import Game from "./components/Game/Game";
+import Score from "./components/Score/Score";
 
-function App() {
+const App = () => {
+  let [score, setScore] = useState('');
+  
+  const getScore = (data: string) => {
+    setScore(data);
+  }
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <Game/>
-      </header>
+      <Score data={score}/>
+      <Game getScore={getScore}/>
     </div>
   );
 }

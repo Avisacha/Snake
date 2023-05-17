@@ -32,7 +32,8 @@ const initState = {
 	foodCoord: getRandCoord(),
 	step: 20,
 	width: width,
-	height: height
+	height: height,
+	score: '0'
 }
 
 const initModal = {
@@ -42,7 +43,11 @@ const initModal = {
 
 let interval: ReturnType<typeof setInterval>;
 
-export default class Game extends Component {
+interface Props {
+	getScore: (data: string) => void;
+}
+
+export default class Game extends Component <Props> {
 	state = initState;
 	modal = initModal;
 
@@ -55,6 +60,7 @@ export default class Game extends Component {
 		this.checkBorderCollision();
 		this.checkFoodEaten();
 		this.checkSegmentsCollision();
+		this.props.getScore(this.state.score);
 	}
 
 	keyEvent = () => {
@@ -145,6 +151,7 @@ export default class Game extends Component {
 			this.setState({ foodCoord: getRandCoord() });
 			this.enlargeSnake();
 			this.speedUp();
+			this.setState({score: (this.state.segments.length - 1).toString()})
 		}
 	}
 
@@ -163,7 +170,7 @@ export default class Game extends Component {
 	}
 
 	gameOver() {
-		this.modal.msg = (this.state.segments.length - 2).toString();
+		this.modal.msg = (this.state.score).toString();
 		this.modal.popup = true;
 		this.setState(initState);
 		clearInterval(interval);
